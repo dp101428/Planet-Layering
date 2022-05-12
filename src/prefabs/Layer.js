@@ -15,6 +15,7 @@ class Layer{
     		button["button"].setDepth(index + 1)
 		}))
     	this.passiveGrowth = passiveGrowth
+    	this.flooredValue = quantity
 	}
 
 	update(){
@@ -34,17 +35,17 @@ class Layer{
 		})
 		if(this.quantity < 3600){
     		this.quantity += this.passiveGrowth
-    		this.quantity = Math.round(this.quantity * 10)/10
+    		this.quantity = Math.round(this.quantity * 1000)/1000
 
     	}
     	if(this.quantity > 3600)
 			this.quantity = 3600
-		console.log(Math.max(this.index-1, 0))
 		this.quantity = Math.min(this.quantity, this.array[Math.max(this.index-1, 0)].quantity)
-    	console.log(this.passiveGrowth)
 		//each shape is 10x10, grid is 30x30
-		if(this.quantity != Math.floor(this.quantity))
+		//optimisation thing, only draw new layer occasionally
+		if(this.flooredQuantity == Math.floor(this.quantity))
 			return
+		this.flooredQuantity = Math.floor(this.quantity)
 		let newObjects = []
 		let totalToDraw = this.quantity;
 		let sideLength = Math.floor(Math.sqrt(this.quantity))
