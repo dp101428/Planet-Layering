@@ -3,14 +3,17 @@ class Play extends Phaser.Scene {
         super("playScene")    
     }
     create(){
-    	this.layer1 = new Layer(this, 0, null, null, Phaser.Display.Color.GetColor(255,0,0), 1);
+    	this.layers = []
+    	this.layers.push(new Layer(this, 0, this.layers, Phaser.Display.Color.GetColor(255,0,0), 1, 
+    		[{button: this.add.text(350, 100, 'Heat up core', { fill: '#fff' }), effect: ()=>{this.layers[0].passiveGrowth += 0.1}, requirement: 151},
+    		{button: this.add.text(450, 150, 'Add Earth', { fill: '#fff' }), effect: ()=>{this.layers[1].quantity += 1}, requirement: 700}], 0.1))
+    	this.layers.push(new Layer(this, 1, this.layers, Phaser.Display.Color.GetColor(200,0,100), 0, [
+    		{button: this.add.text(350, 100, 'Cool core', { fill: '#fff' }), effect: ()=>{this.layers[0].passiveGrowth -= 0.1,
+    		 this.layers[1].passiveGrowth += 0.1}, requirement: 87}], 0))
+
     }
 
     update(){
-    	this.layer1.draw()
-    	if(this.layer1.quantity < 900){
-    		this.layer1.quantity += 0.1
-    		this.layer1.quantity = Math.round(this.layer1.quantity * 10)/10
-    	}
+    	this.layers.forEach((layer)=>{layer.update()})
     }
 }
