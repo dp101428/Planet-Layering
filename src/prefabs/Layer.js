@@ -20,13 +20,13 @@ class Layer{
 
 	update(){
 		this.buttons.forEach((button)=> {
-			if (button["requirement"] <= this.quantity){
+			if (button["requirement"] <= this.quantity && !(this.index != 2 && button["requirement"] <= this.array[this.index+1].quantity)){
 				if(!button["button"].visible){
 					button["button"].setVisible(true)
 					button["button"].setInteractive()
 				}
 			}
-			if(button["requirement"] <= this.array[1].quantity){
+			if(this.index != 2 && button["requirement"] <= this.array[this.index+1].quantity){
 				if(button["button"].visible){
 					button["button"].setVisible(false)
 					button["button"].disableInteractive()
